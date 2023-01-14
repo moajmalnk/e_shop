@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+    {% if category %}
+        {{ category.description|truncatewords:155 }}
+    {% else %}
+        WELCOME TO E STORE WHERE YOU CAN BUY DIFFERENT PRODUCTS ...
+    {% endif %}
+{% endblock %} 
+{% block title %}
+    {% if category %}
+        {{ category.name }} - E STORE
+    {% else %}
+        See Our New Collections - E STORE
+    {% endif %}
+{% endblock %}
+{% block content %}
+    {% if category %}
+    <div>
+        <div class="row my_row_class">
+            <div class="mx-auto">
+                <p><a href="{% url 'e_shopee:all_product_category' %}">OUR PRODUCT CATEGORY</a></p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+<div class="mx-auto">
+    {% if category %}
+        <img class="my_image" src="{{category.img.url}}" alt="{{category.name}}" >
+</div>
+    <br>
+<div>
+    <h1 class="text-center my_title"><b>{{category.name}}</b></h1>
+    <p class="text-center">{{category.desc}}</p>
+    <p class="text-center">{{category.price}}</p>
+</div>
+    {% else %}
+<div class="my_image my_image_padding">
+    <img src="{% static 'img/banner.png' %}" alt="OUR PRODUCTS" width="1300px">
+</div>
+    <br>
+<div>
+    <h1 class="text-center my_title">OUR PRODUCT COLLECTIONS</h1>
+    <p class="text-center">Vegetables consist of a large group of plants consumed as food. Perishable when fresh but able to be preserved by a number of processing methods, they are excellent sources of certain minerals and vitamins and are often the main source of dietary fibre. The consumption of vegetables has increased significantly as consumers have become more health-conscious. Owing to the perishable nature of the fresh produce, international trade in vegetables is mostly confined to the processed forms.</p>
+</div>
+    {% endif %}
+
+{% for product in products.object_list %}
+
+<div class="card-deck">
+  <div class="card text-center">
+    <a href="{{Category.get_url}}"><img class="card-img-top" src="{{product.img.url}}" alt="{{product.name}}"></a>
+    <div class="card-body">
+      <h5 class="card-title">{{product.name}}</h5>
+      <p class="card-text">{{product.desc}}</p>
+        <p class="card-text">{{product.price}}</p>
+    </div>
+  </div>
+  <div class="card text-center">
+    <a href="{{Category.get_url}}"><img class="card-img-top" src="{{product.img.url}}" alt="{{product.name}}"></a>
+    <div class="card-body">
+      <h5 class="card-title">{{product.name}}</h5>
+      <p class="card-text">{{product.desc}}</p>
+        <p class="card-text">{{product.price}}</p>
+    </div>
+  </div>
+  <div class="card text-center ">
+   <a href="{{Category.get_url}}"><img class="card-img-top" src="{{product.img.url}}" alt="{{product.name}}"></a>
+    <div class="card-body">
+      <h5 class="card-title">{{product.name}}</h5>
+      <p class="card-text">{{product.desc}}</p>
+      <p class="card-text">{{product.price}}</p>
+  </div>
+</div>
+</div>
+{% endfor %}
+<div class="mx-auto">
+    {% if products.paginator.num_pages > 1 %}
+
+    <hr>
+    <div class="text-center">
+        {% for pg in products.paginator.page_range %}
+            <a href="?page={{pg}}" class="btn btn-primary {% if products.number == pg %} active {% endif %}">{{pg}}</a>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}
